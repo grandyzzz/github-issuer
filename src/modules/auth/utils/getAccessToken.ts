@@ -1,4 +1,3 @@
 export async function getAccessToken() {
-
-    return null;
+  return null
 }

@@ -1,5 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
-import { Layout } from 'modules/layout/components';
+import { Routes, Route } from 'react-router-dom'
+import { Layout } from 'modules/layout/components'
 
 // import { Login } from 'modules/auth';
 //
@@ -28,7 +28,7 @@ const App = () => {
         <Route path="about" element={<div>About</div>} />
       </Routes>
     </Layout>
-  );
-};
+  )
+}
 
-export default App;
+export default App

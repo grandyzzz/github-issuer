@@ -1,4 +1,9 @@
-import type {ComponentType, JSXElementConstructor, ReactElement, ReactNode} from 'react'
+import type {
+  ComponentType,
+  JSXElementConstructor,
+  ReactElement,
+  ReactNode,
+} from 'react'
 import cn from 'classnames'
 
 interface TextProps {
@@ -8,11 +13,7 @@ interface TextProps {
   children?: ReactNode | any
 }
 
-type Variant =
-  | 'heading'
-  | 'heading2'
-  | 'body'
-  | 'bodyBold'
+type Variant = 'heading' | 'heading2' | 'body' | 'bodyBold'
 
 const componentsMap: { [P in Variant]: ComponentType<any> | string } = {
   heading: 'h1',
@@ -28,10 +29,12 @@ const stylesMap: { [P in Variant]: ComponentType<any> | string } = {
   bodyBold: 'text-base font-bold',
 }
 
-function Text({ className, variant = 'body', children } : TextProps) {
-
-  const Component: JSXElementConstructor<any> | ReactElement | ComponentType<any> | string =
-    componentsMap?.[variant]
+function Text({ className, variant = 'body', children }: TextProps) {
+  const Component:
+    | JSXElementConstructor<any>
+    | ReactElement
+    | ComponentType<any>
+    | string = componentsMap?.[variant]
 
   return (
     <Component className={cn(className, stylesMap?.[variant])}>
