@@ -6,13 +6,6 @@ import type {
 } from 'react'
 import cn from 'classnames'
 
-interface TextProps {
-  className?: string
-  color?: string
-  variant?: Variant
-  children?: ReactNode | any
-}
-
 type Variant = 'heading' | 'heading2' | 'body' | 'bodyBold'
 
 const componentsMap: { [P in Variant]: ComponentType<any> | string } = {
@@ -29,7 +22,14 @@ const stylesMap: { [P in Variant]: ComponentType<any> | string } = {
   bodyBold: 'text-base font-bold',
 }
 
-function Text({ className, variant = 'body', children }: TextProps) {
+interface TextProps {
+  className?: string
+  variant?: Variant
+  color?: string
+  children?: ReactNode | any
+}
+
+function Text({ className, variant = 'body', color, children }: TextProps) {
   const Component:
     | JSXElementConstructor<any>
     | ReactElement
@@ -37,7 +37,7 @@ function Text({ className, variant = 'body', children }: TextProps) {
     | string = componentsMap?.[variant]
 
   return (
-    <Component className={cn(className, stylesMap?.[variant])}>
+    <Component className={cn(className, stylesMap?.[variant], color)}>
       {children}
     </Component>
   )
