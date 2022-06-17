@@ -1,5 +1,7 @@
 import { Button, Modal, ModalProps, Text } from 'modules/ui'
 import { TextArea, TextField, useForm } from 'modules/form'
+import { useCreateIssueMutation } from '../../../graphql/codegen'
+import { useParams } from 'react-router-dom'
 
 interface CreateIssueModalProps extends ModalProps {
   onCreate(): void
@@ -10,6 +12,7 @@ function CreateIssueModal({
   onClose,
   onCreate,
 }: CreateIssueModalProps) {
+  const { id } = useParams()
   const { values, ...form } = useForm({
     initialValues: {
       title: '',
@@ -18,7 +21,26 @@ function CreateIssueModal({
     onSubmit: handleSubmit,
   })
 
-  function handleSubmit() {
+  const [createIssue, { loading }] = useCreateIssueMutation()
+
+  async function handleSubmit() {
+    const { title, description } = values
+
+    const data = {
+      title,
+      body: description,
+      repositoryId: id as string,
+      labelIds: [],
+      assigneeIds: [],
+      projectIds: [],
+    }
+
+    await createIssue({
+      variables: {
+        input: data,
+      },
+    })
+
     onClose()
     onCreate()
   }
@@ -49,7 +71,9 @@ function CreateIssueModal({
           <Button onClick={onClose} className="mr-3" variant="text">
             Cancel
           </Button>
-          <Button type="submit">Create</Button>
+          <Button type="submit" disabled={loading}>
+            Create
+          </Button>
         </div>
       </form>
     </Modal>

@@ -1,29 +1,46 @@
 import { useModal } from 'hooks'
 import { Container, Section } from 'modules/layout'
 import { Button, Text } from 'modules/ui'
-import { Issue, IssuesList } from '../IssuesList'
+import { IssuesList } from '../IssuesList'
 import CreateIssueModal from '../CreateIssueModal'
-
-const issues: Issue[] = [
-  {
-    id: '1',
-    title: 'Update Readme.md',
-    metadata: '#33 opened 14 days ago by Konstantin Luferenko',
-  },
-  {
-    id: '2',
-    title: 'Fix Server.js',
-    metadata: '#32 opened 19 days ago by Konstantin Luferenko',
-  },
-  {
-    id: '3',
-    title: 'Create Profile View',
-    metadata: '#31 opened 20 days ago by Konstantin Luferenko',
-  },
-]
+import {
+  Issue,
+  IssueOrderField,
+  IssueState,
+  OrderDirection,
+  Repository,
+  useRepositoryIssuesQuery,
+} from 'modules/graphql/codegen'
+import { useParams } from 'react-router-dom'
 
 function OpenIssuesSection() {
+  const { id } = useParams()
   const { isOpened, toggleModal } = useModal()
+  const { refetch, loading, ...result } = useRepositoryIssuesQuery({
+    variables: {
+      nodeId: id || '',
+      states: [IssueState.Open],
+      orderBy: {
+        field: IssueOrderField.CreatedAt,
+        direction: OrderDirection.Desc,
+      },
+    },
+    skip: !id,
+  })
+
+  const repository = result.data?.node as Repository
+  const issues = (repository?.issues?.nodes as Issue[]) || []
+
+  if (issues.length === 0 && !loading)
+    return (
+      <Container>
+        <Text variant="heading2" color="gray">
+          No opened issues found
+        </Text>
+      </Container>
+    )
+
+  if (issues.length === 0) return null
 
   return (
     <Section>
@@ -44,7 +61,7 @@ function OpenIssuesSection() {
       <CreateIssueModal
         opened={isOpened}
         onClose={toggleModal}
-        onCreate={() => {}}
+        onCreate={refetch}
       />
     </Section>
   )

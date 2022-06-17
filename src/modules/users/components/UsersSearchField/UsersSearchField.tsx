@@ -1,11 +1,22 @@
-import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { DataMap, SearchField } from 'modules/form'
+import type { RootState } from 'modules/core'
+import { setSearchValue, setSelectedUser } from '../../services'
 
 function UsersSearchField() {
-  const [searchValue, setSearchValue] = useState('')
+  const dispatch = useDispatch()
+  const location = useLocation()
+  const navigate = useNavigate()
+  const searchValue = useSelector((state: RootState) => state.users.searchValue)
+
+  console.log(location)
 
   function handleSubmit({ search }: DataMap) {
-    setSearchValue(search)
+    dispatch(setSearchValue(search))
+    dispatch(setSelectedUser(null))
+
+    location.pathname !== '/' && navigate('/')
   }
 
   return (

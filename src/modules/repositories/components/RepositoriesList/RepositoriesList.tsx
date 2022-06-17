@@ -1,12 +1,6 @@
 import cn from 'classnames'
 import RepositoryListItem from './RepositoryListItem'
-
-export interface Repository {
-  id: string
-  title: string
-  stars: number
-  watchers: number
-}
+import type { Repository } from 'modules/graphql/codegen'
 
 export interface RepositoriesListProps {
   className?: string

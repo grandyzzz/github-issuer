@@ -1,11 +1,6 @@
 import cn from 'classnames'
+import type { Issue } from 'modules/graphql/codegen'
 import IssueListItem from './IssueListItem'
-
-export interface Issue {
-  id: string
-  title: string
-  metadata: string
-}
 
 interface IssuesListProps {
   className?: string

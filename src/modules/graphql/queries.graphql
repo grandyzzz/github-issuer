@@ -1,5 +1,67 @@
-query WhoAmI {
-  viewer {
-    login
+query SearchUsers($query: String!) {
+  search(query: $query, type: USER, first: 20) {
+    nodes {
+      ... on User {
+        id
+        avatarUrl
+        name
+        login
+        repositories {
+          totalCount
+        }
+        starredRepositories {
+          totalCount
+        }
+      }
+    }
+  }
+}
+
+query UserRepositories($login: String!, $orderBy: RepositoryOrder) {
+  user(login: $login) {
+    repositories(first: 20, isFork: false, privacy: PUBLIC, orderBy: $orderBy) {
+      nodes {
+        id
+        name
+        stargazerCount
+        watchers {
+          totalCount
+        }
+      }
+    }
+  }
+}
+
+query RepositoryById($nodeId: ID!) {
+  node(id: $nodeId) {
+    ... on Repository {
+      id
+      name
+      stargazerCount
+      watchers {
+        totalCount
+      }
+    }
+  }
+}
+
+query RepositoryIssues($nodeId: ID!, $states: [IssueState!], $orderBy: IssueOrder) {
+  node(id: $nodeId) {
+    ... on Repository {
+      id
+      issues(first: 20, states: $states, orderBy: $orderBy) {
+        nodes {
+          id
+          number
+          title
+          createdAt
+          author {
+            ... on User {
+              name
+            }
+          }
+        }
+      }
+    }
   }
 }

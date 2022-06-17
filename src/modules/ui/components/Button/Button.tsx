@@ -32,6 +32,7 @@ function Button({
   variant = 'contained',
   type = 'button',
   color = 'primary',
+  disabled = false,
   fullWidth,
   onClick,
 }: ButtonProps) {
@@ -49,7 +50,12 @@ function Button({
   )
 
   return (
-    <button className={buttonClassName} onClick={onClick} type={type}>
+    <button
+      className={buttonClassName}
+      onClick={onClick}
+      type={type}
+      disabled={disabled}
+    >
       {children}
     </button>
   )

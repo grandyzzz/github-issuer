@@ -1,3 +1,3 @@
 export async function getAccessToken() {
-  return null
+  return process.env.REACT_APP_GITHUB_TOKEN || ''
 }

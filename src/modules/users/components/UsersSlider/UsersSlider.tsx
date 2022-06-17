@@ -1,68 +1,20 @@
-import { useState } from 'react'
+import type { User } from 'modules/graphql/codegen'
 import { Slider } from 'modules/ui'
 import UserCard from '../UserCard'
 import './UsersSlider.sass'
 
-interface User {
-  name: string
-  repositories: number
-  stars: number
+interface UsersSliderProps {
+  users: User[]
 }
 
-const users: User[] = [
-  {
-    name: 'John Doe',
-    repositories: 27,
-    stars: 127,
-  },
-  {
-    name: 'John Doe',
-    repositories: 27,
-    stars: 127,
-  },
-  {
-    name: 'John Doe',
-    repositories: 27,
-    stars: 127,
-  },
-  {
-    name: 'John Doe',
-    repositories: 27,
-    stars: 127,
-  },
-  {
-    name: 'John Doe',
-    repositories: 27,
-    stars: 127,
-  },
-  {
-    name: 'John Doe',
-    repositories: 27,
-    stars: 127,
-  },
-]
-
-function UsersSlider() {
-  const [activeUser, setActiveUser] = useState(0)
-
-  function handleClick(index: number) {
-    return function () {
-      setActiveUser(index)
-    }
-  }
-
+function UsersSlider({ users }: UsersSliderProps) {
   return (
-    <div className="users-slider mt-5 relative">
+    <div className="users-slider mt-5 relative min-h-[180px]">
       <Slider>
-        {users.map((user, index) => (
-          <UserCard
-            key={index}
-            onClick={handleClick(index)}
-            index={index}
-            isActive={activeUser === index}
-            user={user}
-          />
-        ))}
+        {users &&
+          users.map((user, index) => (
+            <UserCard key={user.id} index={index} user={user} />
+          ))}
       </Slider>
       <div className="absolute w-[80px] h-full top-0 right-0 bg-gradient-to-l from-white z-10 pointer-events-none" />
       <div className="absolute w-[80px] h-full top-0 left bg-gradient-to-r from-white z-10 pointer-events-none" />

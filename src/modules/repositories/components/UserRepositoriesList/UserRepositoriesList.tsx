@@ -1,46 +1,41 @@
+import { useSelector } from 'react-redux'
+import type { RootState } from 'modules/core'
+import {
+  OrderDirection,
+  Repository,
+  RepositoryOrderField,
+  useUserRepositoriesQuery,
+} from 'modules/graphql/codegen'
+import { Text } from 'modules/ui'
 import { RepositoriesList } from '../RepositoriesList'
 
-interface Repository {
-  id: string
-  title: string
-  stars: number
-  watchers: number
-}
-
-const repositories: Repository[] = [
-  {
-    id: '123',
-    title: 'Super Cool Project',
-    stars: 1527,
-    watchers: 127,
-  },
-  {
-    id: '1234',
-    title: 'Super Cool Project',
-    stars: 1527,
-    watchers: 127,
-  },
-  {
-    id: '1235',
-    title: 'Super Cool Project',
-    stars: 1527,
-    watchers: 127,
-  },
-  {
-    id: '1236',
-    title: 'Super Cool Project',
-    stars: 1527,
-    watchers: 127,
-  },
-  {
-    id: '1237',
-    title: 'Super Cool Project',
-    stars: 1527,
-    watchers: 127,
-  },
-]
-
 function UserRepositoriesList() {
+  const userLogin = useSelector(
+    (state: RootState) => state.users.selectedUser?.login
+  )
+  const { loading, ...result } = useUserRepositoriesQuery({
+    variables: {
+      login: userLogin || '',
+      orderBy: {
+        direction: OrderDirection.Desc,
+        field: RepositoryOrderField.CreatedAt,
+      },
+    },
+    skip: !userLogin,
+  })
+
+  const repositories =
+    (result.data?.user?.repositories?.nodes as Repository[]) || []
+
+  if (repositories.length === 0 && !loading)
+    return (
+      <Text variant="heading2" color="gray">
+        No repositories found
+      </Text>
+    )
+
+  if (repositories.length === 0) return null
+
   return <RepositoriesList className="mt-5" repositories={repositories} />
 }
 
