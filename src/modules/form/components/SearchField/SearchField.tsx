@@ -1,14 +1,23 @@
+import cn from 'classnames'
+import { Button } from 'modules/ui'
 import { DataMap, useForm } from '../../hooks'
 import TextField from '../TextField'
-import { Button } from 'modules/ui'
 
 interface SearchFieldProps {
   className?: string
-  value: string
+  name?: string
+  value?: string
+  placeholder?: string
   onSubmit: (value: DataMap) => void
 }
 
-function SearchField({ value, onSubmit }: SearchFieldProps) {
+function SearchField({
+  className,
+  name,
+  value,
+  placeholder,
+  onSubmit,
+}: SearchFieldProps) {
   const { values, handleChange, handleSubmit } = useForm({
     initialValues: {
       search: value,
@@ -17,18 +26,22 @@ function SearchField({ value, onSubmit }: SearchFieldProps) {
   })
 
   return (
-    <form className="flex" onSubmit={handleSubmit}>
+    <form className={cn(className, 'w-full flex')} onSubmit={handleSubmit}>
       <TextField
-        className="max-w-xl"
+        name={name}
         type="search"
         inputClassName="border-r-0 rounded-r-none"
         value={values.search}
         size="large"
-        placeholder={'Search'}
+        placeholder={placeholder}
         onChange={handleChange}
-        name="search"
       />
-      <Button className="border-l-0 rounded-l-none" size="large" type="submit">
+      <Button
+        className="border-l-0 rounded-l-none"
+        color="accent"
+        size="large"
+        type="submit"
+      >
         Search
       </Button>
     </form>

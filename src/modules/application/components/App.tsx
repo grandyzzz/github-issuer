@@ -1,5 +1,7 @@
 import { Routes, Route } from 'react-router-dom'
-import { Layout } from 'modules/layout/components'
+import { Layout } from 'modules/layout'
+import { UsersPage } from 'modules/users'
+import { RepositoryPage } from 'modules/repositories'
 
 // import { Login } from 'modules/auth';
 //
@@ -24,8 +26,9 @@ const App = () => {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<div>Hello world!</div>} />
-        <Route path="about" element={<div>About</div>} />
+        <Route path="auth" element={<div>Auth</div>} />
+        <Route path="/" element={<UsersPage />} />
+        <Route path="repositories/:id" element={<RepositoryPage />} />
       </Routes>
     </Layout>
   )

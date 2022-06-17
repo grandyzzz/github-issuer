@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
+
 import Container from '../Container'
+import { UsersSearchField } from 'modules/users'
 
 interface LayoutProps {
   children: ReactNode
@@ -8,7 +10,9 @@ interface LayoutProps {
 function Layout({ children }: LayoutProps) {
   return (
     <div className="w-full">
-      <Container></Container>
+      <Container>
+        <UsersSearchField />
+      </Container>
       {children}
     </div>
   )

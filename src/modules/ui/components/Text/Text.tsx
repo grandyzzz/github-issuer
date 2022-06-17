@@ -7,6 +7,7 @@ import type {
 import cn from 'classnames'
 
 type Variant = 'heading' | 'heading2' | 'body' | 'bodyBold'
+export type Colors = 'black' | 'gray' | 'white' | string
 
 const componentsMap: { [P in Variant]: ComponentType<any> | string } = {
   heading: 'h1',
@@ -15,32 +16,51 @@ const componentsMap: { [P in Variant]: ComponentType<any> | string } = {
   bodyBold: 'p',
 }
 
-const stylesMap: { [P in Variant]: ComponentType<any> | string } = {
+const stylesMap: { [P in Variant]: string } = {
   heading: 'text-3xl',
   heading2: 'text-xl',
   body: 'text-base',
   bodyBold: 'text-base font-bold',
 }
 
+const textColorsMap: { [P in Colors]: string } = {
+  black: 'text-black',
+  gray: 'text-gray-400',
+  white: 'text-white',
+}
+
 interface TextProps {
   className?: string
   variant?: Variant
-  color?: string
-  children?: ReactNode | any
+  color?: Colors
+  center?: boolean
+  component?: string
+  children?: ReactNode
 }
 
-function Text({ className, variant = 'body', color, children }: TextProps) {
+export function Text({
+  className,
+  variant = 'body',
+  center = false,
+  color = 'black',
+  component,
+  children,
+}: TextProps) {
   const Component:
     | JSXElementConstructor<any>
     | ReactElement
     | ComponentType<any>
-    | string = componentsMap?.[variant]
+    | string = component || componentsMap?.[variant]
 
-  return (
-    <Component className={cn(className, stylesMap?.[variant], color)}>
-      {children}
-    </Component>
+  const textClassNames = cn(
+    className,
+    stylesMap?.[variant],
+    textColorsMap?.[color] || color,
+    color,
+    {
+      'text-center': center,
+    }
   )
-}
 
-export default Text
+  return <Component className={textClassNames}>{children}</Component>
+}

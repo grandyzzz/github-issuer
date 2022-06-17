@@ -1,2 +1,5 @@
-export { default as Text } from './Text'
+export * from './Text'
+export * from './StatsText'
+export * from './Modal'
 export { default as Button } from './Button'
+export { default as Slider } from './Slider'

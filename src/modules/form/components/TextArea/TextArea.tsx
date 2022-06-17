@@ -10,7 +10,7 @@ interface TextAreaProps {
   required?: boolean
 }
 
-function Textarea({
+function TextArea({
   className,
   name,
   value,
@@ -40,4 +40,4 @@ function Textarea({
   )
 }
 
-export default Textarea
+export default TextArea

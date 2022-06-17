@@ -10,6 +10,7 @@ interface TextFieldProps {
   type?: string
   placeholder?: string
   size?: 'medium' | 'large'
+  required?: boolean
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void
 }
 
@@ -22,6 +23,7 @@ function TextField({
   type = 'text',
   size = 'medium',
   placeholder,
+  required,
   onChange,
 }: TextFieldProps) {
   const inputClasses = cn(
@@ -46,6 +48,7 @@ function TextField({
         name={name}
         value={value}
         placeholder={placeholder}
+        required={required}
         onChange={onChange}
       />
     </div>

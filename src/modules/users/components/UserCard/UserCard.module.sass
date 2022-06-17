@@ -1,0 +1,17 @@
+.root
+  @apply relative flex items-center flex-col justify-center w-72 min-w-[288px] h-40 mb-5
+  @apply bg-gray-800 rounded-lg shadow cursor-pointer
+  @apply after:absolute after:-bottom-4 after:left-1/2 after:h-0.5 after:w-3/4 after:bg-blue-500 after:-translate-x-1/2
+  @apply after:origin-center after:transition-transform after:scale-x-0 after:duration-300 after:pointer-events-none
+  &:hover .overlay
+    @apply opacity-100
+
+.active
+  @apply after:scale-x-100
+
+
+
+
+.overlay
+  @apply absolute top-0 left-0 w-full h-full bg-blue-500 flex items-center justify-center rounded-lg
+  @apply opacity-0 transition-opacity duration-300
