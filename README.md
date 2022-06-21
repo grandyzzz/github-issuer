@@ -6,7 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 In the project directory, you can run:
 
-### Also, before start please but your GitHub token to `codegen.yml` and `.env`
+### Also, before start please put your GitHub token to `codegen.yml` and `.env`
 
 ### `yarn start`
 
